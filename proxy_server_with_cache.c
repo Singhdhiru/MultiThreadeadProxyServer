@@ -2,18 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <windows.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <time.h>
+#include <sys/wait.h>
 #include <errno.h>
-#include<pthread.h>
-#include<semaphore.h>
-// Need to link with Winsock Library
-#pragma comment(lib, "ws2_32.lib")
+#include <pthread.h>
+#include <semaphore.h>
 // * typedef struct cache_element with cache_element
 typedef struct cache_element cache_element;
-#define MAX_CLIENT = 10; // Total number of clients
+#define MAX_CLIENT  10 // Total number of clients
 
 struct cache_element{
     char* data;         //data stores response
@@ -36,9 +39,29 @@ sem_t semaphore;          //* if client requests exceeds the max_clients this se
 pthread_mutex_t lock;     //* mutex lock to synchronize access to the cache
 
 
-cache_element* head; //* pionter to the head of the LRU cache list
+cache_element* head; //* pointer to the head of the LRU cache list
 int size;            //* size of the LRU cache list
 
-int main(){
+int main(int argc, char * argv[]){
+    int client_socketId, client_length; // client_socketId stores the socket id of the client
+    struct sockaddr client_address, socket_address; // client_address and socket_address stores the address of the client and server
+    sem_int(&semaphore, 0, 1); // intialize the semaphore with 0 and 1
+    pthread_mutex_init(&lock, NULL); // intialize the mutex lock
+
+    if(argv == 2){ // checking whether two argument is passed or not
+        port_number = atoi(argv[1]);
+    }
+    else{
+        printf("Too few arguments\n");
+        exit(1);
+    }
+    printf("Setting up the proxy sever on port_number : %d\n", port_number);
+    // creating proxy server
+    proxy_socketId = socket(AF_INET, SOCK_STREAM, 0); // creating a socket for proxy server
+    if(proxy_socketId < 0){
+        printf("Error in creating socket\n");
+        exit(1);
+    }
     
+
 }
