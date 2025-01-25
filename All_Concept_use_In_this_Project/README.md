@@ -46,10 +46,23 @@ int main()
 **Pthread_create() working**
 1. The pthread_create() function is used to create a new Thread.
 2. Its take four argument in pthread_create function.
-    ###
-    * The first argument is a pointer to thread_id which is set by this function. 
+    ###* The first argument is a pointer to thread_id which is set by this function. 
     * The second argument specifies attributes. If the value is NULL, then default attributes shall be used. 
     * The third argument is name of function to be executed for the thread to be created. 
     * The fourth argument is used to pass arguments to the function, myThreadFun. 
 
 ## Socket Programming in C Language ? 
+__Socket programming is a way of connecting two nodes on a network to communicate with each other. One socket(node) listens on a particular port at an IP, while the other socket reaches out to the other to form a connection. The server forms the listener socket while the client reaches out to the server.__
+
+**Socket programming in C is a powerful way to handle network communication.**
+
+# Stages for Server  
+
+>### 1. Socket Creation 
+
+```
+int sockfd = socket(domain, type, protocol)
+```
+>
+>>## sockfd: socket descriptor, an integer (like a file handle)
+>>## 
